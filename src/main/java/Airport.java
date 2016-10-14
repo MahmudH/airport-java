@@ -1,8 +1,29 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Airport {
-    public Airport() {
+    private List<Plane> planes;
+
+    public List<Plane> getPlanes() {
+        return planes;
     }
 
-    public String landPlane(Plane plane) {
-        return "Plane landed";
+    public Airport() {
+        this.planes = new ArrayList<Plane>();
+    }
+
+    public void landPlane(Plane plane) {
+        planes.add(plane);
+    }
+
+    public void takeOffPlane(Plane plane) throws AirportException {
+        if (stormyWeather()) {
+            throw new AirportException("Too stormy to fly");
+        }
+        planes.remove(plane);
+    }
+
+    public boolean stormyWeather() {
+        return Math.random() > 0.5;
     }
 }
