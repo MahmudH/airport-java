@@ -12,8 +12,12 @@ public class Airport {
         this.planes = new ArrayList<Plane>();
     }
 
-    public void landPlane(Plane plane) {
+    public void landPlane(Plane plane) throws AirportException {
+        if (stormyWeather()) {
+            throw new AirportException("Too stormy to land");
+        }
         planes.add(plane);
+
     }
 
     public void takeOffPlane(Plane plane) throws AirportException {

@@ -34,7 +34,7 @@ public class AirportTest {
     public final ExpectedException exception = ExpectedException.none();
 
     @Test
-    public void shouldLandAPlane() {
+    public void shouldLandAPlane() throws AirportException {
         airport.landPlane(plane);
         planes = airport.getPlanes();
         assertEquals(1, planes.size());
@@ -53,5 +53,11 @@ public class AirportTest {
     public void shouldNotTakeOffIfStormy() throws Exception {
         when(airport.stormyWeather()).thenReturn(true);
         airport.takeOffPlane(plane);
+    }
+
+    @Test(expected = AirportException.class)
+    public void shouldNotLandPlaneIfStormy() throws Exception {
+        when(airport.stormyWeather()).thenReturn(true);
+        airport.landPlane(plane);
     }
 }
