@@ -3,18 +3,23 @@ import java.util.List;
 
 public class Airport {
     private List<Plane> planes;
+    private int CAPACITY;
 
     public List<Plane> getPlanes() {
         return planes;
     }
 
     public Airport() {
+        this.CAPACITY = 20;
         this.planes = new ArrayList<Plane>();
     }
 
     public void landPlane(Plane plane) throws AirportException {
         if (stormyWeather()) {
             throw new AirportException("Too stormy to land");
+        }
+        if (getPlanes().size() > CAPACITY) {
+            throw new AirportException("Airport is full, cannot land");
         }
         planes.add(plane);
 

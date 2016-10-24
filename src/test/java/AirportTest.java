@@ -18,12 +18,13 @@ import static org.mockito.Mockito.when;
 public class AirportTest {
 
     private Airport airport;
+    private int CAPACITY = 20;
 
     @Mock
     Plane plane;
 
     @Mock
-    List<Plane> planes = new ArrayList<Plane>();
+    List<Plane> planes = new ArrayList<>();
 
     @Before
     public void setUp() throws Exception {
@@ -59,5 +60,16 @@ public class AirportTest {
     public void shouldNotLandPlaneIfStormy() throws Exception {
         when(airport.stormyWeather()).thenReturn(true);
         airport.landPlane(plane);
+    }
+
+    @Test(expected = AirportException.class)
+    public void shouldPreventLandingWhenAirportIsFull() throws Exception {
+        when(airport.stormyWeather()).thenReturn(false);
+        for (int i = 0; i < CAPACITY; i++) {
+            airport.landPlane(plane);
+        }
+        System.out.println(airport.getPlanes().size());
+        airport.landPlane(plane);
+        System.out.println(airport.getPlanes().size());
     }
 }
