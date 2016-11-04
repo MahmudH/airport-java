@@ -1,7 +1,4 @@
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -10,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
 public class AirportTest {
 
+    public static final WeatherService GOOD_WEATHER = () -> false;
+    public static final WeatherService STORMY_WEATHER = () -> true;
     private Airport airport;
     private int CAPACITY = 20;
 
@@ -26,16 +23,9 @@ public class AirportTest {
     @Mock
     List<Plane> planes = new ArrayList<>();
 
-    @Before
-    public void setUp() throws Exception {
-        airport = spy(new Airport());
-    }
-
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
     @Test
     public void shouldLandAPlane() throws AirportException {
+        airport = new Airport(GOOD_WEATHER);
         airport.landPlane(plane);
         planes = airport.getPlanes();
         assertEquals(1, planes.size());
@@ -43,7 +33,7 @@ public class AirportTest {
 
     @Test
     public void shouldTakeOfPlane() throws AirportException {
-        when(airport.stormyWeather()).thenReturn(false);
+        airport = new Airport(GOOD_WEATHER);
         airport.landPlane(plane);
         airport.takeOffPlane(plane);
         planes = airport.getPlanes();
@@ -52,19 +42,19 @@ public class AirportTest {
 
     @Test(expected = AirportException.class)
     public void shouldNotTakeOffIfStormy() throws Exception {
-        when(airport.stormyWeather()).thenReturn(true);
+        airport = new Airport(STORMY_WEATHER);
         airport.takeOffPlane(plane);
     }
 
     @Test(expected = AirportException.class)
     public void shouldNotLandPlaneIfStormy() throws Exception {
-        when(airport.stormyWeather()).thenReturn(true);
+        airport = new Airport(STORMY_WEATHER);
         airport.landPlane(plane);
     }
 
     @Test(expected = AirportException.class)
     public void shouldPreventLandingWhenAirportIsFull() throws Exception {
-        when(airport.stormyWeather()).thenReturn(false);
+        airport = new Airport(GOOD_WEATHER);
         for (int i = 0; i < CAPACITY; i++) {
             airport.landPlane(plane);
         }

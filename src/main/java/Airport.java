@@ -5,6 +5,7 @@ import java.util.List;
 public class Airport {
     private List<Plane> planes;
     private int CAPACITY;
+    private WeatherService weatherService;
 
     public List<Plane> getPlanes() {
         return Collections.unmodifiableList(planes);
@@ -14,13 +15,14 @@ public class Airport {
         return planes.size();
     }
 
-    public Airport() {
+    public Airport(WeatherService weatherService) {
+        this.weatherService = weatherService;
         this.CAPACITY = 20;
         this.planes = new ArrayList<Plane>();
     }
 
     public void landPlane(Plane plane) throws AirportException {
-        if (stormyWeather()) {
+        if (weatherService.stormyWeather()) {
             throw new AirportException("Too stormy to land");
         }
         if (getPlanes().size() >= CAPACITY) {
@@ -31,13 +33,9 @@ public class Airport {
     }
 
     public void takeOffPlane(Plane plane) throws AirportException {
-        if (stormyWeather()) {
+        if (weatherService.stormyWeather()) {
             throw new AirportException("Too stormy to fly");
         }
         planes.remove(plane);
-    }
-
-    public boolean stormyWeather() {
-        return Math.random() > 0.5;
     }
 }
