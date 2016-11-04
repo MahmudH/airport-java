@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Airport {
@@ -6,7 +7,11 @@ public class Airport {
     private int CAPACITY;
 
     public List<Plane> getPlanes() {
-        return planes;
+        return Collections.unmodifiableList(planes);
+    }
+
+    public int getNumberOfPlanes() {
+        return planes.size();
     }
 
     public Airport() {
@@ -18,7 +23,7 @@ public class Airport {
         if (stormyWeather()) {
             throw new AirportException("Too stormy to land");
         }
-        if (getPlanes().size() > CAPACITY) {
+        if (getPlanes().size() >= CAPACITY) {
             throw new AirportException("Airport is full, cannot land");
         }
         planes.add(plane);

@@ -68,8 +68,6 @@ public class AirportTest {
         for (int i = 0; i < CAPACITY; i++) {
             airport.landPlane(plane);
         }
-        System.out.println(airport.getPlanes().size());
         airport.landPlane(plane);
-        System.out.println(airport.getPlanes().size());
     }
 }
