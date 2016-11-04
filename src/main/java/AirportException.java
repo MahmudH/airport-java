@@ -1,4 +1,4 @@
-public class AirportException extends Exception {
+public class AirportException extends RuntimeException {
     public AirportException(String message) {
         super(message);
     }

@@ -24,7 +24,7 @@ public class AirportTest {
     List<Plane> planes = new ArrayList<>();
 
     @Test
-    public void shouldLandAPlane() throws AirportException {
+    public void shouldLandAPlane() {
         airport = new Airport(GOOD_WEATHER);
         airport.landPlane(plane);
         planes = airport.getPlanes();
@@ -32,7 +32,7 @@ public class AirportTest {
     }
 
     @Test
-    public void shouldTakeOfPlane() throws AirportException {
+    public void shouldTakeOfPlane() {
         airport = new Airport(GOOD_WEATHER);
         airport.landPlane(plane);
         airport.takeOffPlane(plane);
@@ -41,19 +41,19 @@ public class AirportTest {
     }
 
     @Test(expected = AirportException.class)
-    public void shouldNotTakeOffIfStormy() throws Exception {
+    public void shouldNotTakeOffIfStormy() {
         airport = new Airport(STORMY_WEATHER);
         airport.takeOffPlane(plane);
     }
 
     @Test(expected = AirportException.class)
-    public void shouldNotLandPlaneIfStormy() throws Exception {
+    public void shouldNotLandPlaneIfStormy() {
         airport = new Airport(STORMY_WEATHER);
         airport.landPlane(plane);
     }
 
     @Test(expected = AirportException.class)
-    public void shouldPreventLandingWhenAirportIsFull() throws Exception {
+    public void shouldPreventLandingWhenAirportIsFull() {
         airport = new Airport(GOOD_WEATHER);
         for (int i = 0; i < CAPACITY; i++) {
             airport.landPlane(plane);
